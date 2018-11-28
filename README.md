@@ -59,3 +59,4 @@ SCUT-FBP-6	-0.0243623641428185
 SCUT-FBP-1	-0.263895104788309
 SCUT-FBP-11	-0.0834302308883156
 ```
+**Notice(sample images were provided under data folder for testing)**
