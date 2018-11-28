@@ -1,7 +1,8 @@
 # Facial_morphology
 
+Using dlib library to detect facial landmarks. Then preprocessing the landmarks through standardization and analyzing the facial masculinity through randomforest classification method.
 
-**Set up enviroment for dlib in ubuntu**
+## Set up enviroment for dlib in ubuntu
 
 Recommanded installation steps (assume you already install the python):
 
@@ -20,7 +21,7 @@ Traverse to the 'src' folder and compile the Rscript through console command:
 Rscript Masc_measure.R   ../Masc_measure/data       pheno.txt           output.txt
 ```
 	
-	 (Script)          (image file path)    (phenotype file path)   (output file name)
+	   (Script)          (image folder path)    (phenotype file path)   (output file name)
 
 
 In specifically, for now, only processing images in "jpg" format.
