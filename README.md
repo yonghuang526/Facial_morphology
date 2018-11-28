@@ -15,7 +15,7 @@ Install dlib library:
 conda install -c menpo dlib
 ```
 
-
+## Landmarks detection and Masculinity score analyzation
 Traverse to the 'src' folder and compile the Rscript through console command:
 ```
 Rscript Masc_measure.R   ../Masc_measure/data       pheno.txt           output.txt
