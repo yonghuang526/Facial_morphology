@@ -1,6 +1,6 @@
 # Facial_morphology
 
-Using dlib library to detect facial landmarks. Then preprocessing the landmarks through standardization and analyzing the facial masculinity through randomforest classification method.
+Using dlib library to detect facial landmarks. Then preprocessing the landmarks through standardization and predict the facial masculinity score through randomforest classification method.
 
 ## Set up enviroment for dlib in ubuntu
 
