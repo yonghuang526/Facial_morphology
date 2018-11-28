@@ -1,7 +1,7 @@
 # Facial_morphology
 
 
-**Set up enviroment for dlib in ubuntu
+**Set up enviroment for dlib in ubuntu**
 
 Recommanded installation steps (assume you already install the python):
 
@@ -15,7 +15,7 @@ conda install -c menpo dlib
 ```
 
 
-Compile the Rscript through console command:
+Traverse to the 'src' folder and compile the Rscript through console command:
 ```
 Rscript Masc_measure.R   ../Masc_measure/data       pheno.txt           output.txt
 ```
