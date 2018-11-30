@@ -6,7 +6,7 @@ print(args)
 
 if(length(args) > 0){
   
-  pheno <- read.table(paste(getwd(),paste("/",args[2],sep = ""),sep = ""),header = T)
+  pheno <- read.table(paste(getwd(),paste("/",args[2],sep = ""),sep = ""),header = T,stringsAsFactors=FALSE,colClasses = c("character"))
   
   if(!file.exists(args[1])){
     stop("image file not found, plz provide full path of your image folder")
@@ -139,13 +139,37 @@ dd = sapply(ll,function(x) as.numeric(dist(x)))
 dd = t(dd)
 
 library(randomForest)
-rf = randomForest(y=pheno$Sex,x=dd,importance=T,do.trace=100,ntree=5000,mtry=2)
-masc = rf$votes[,2]
+### Loading the pre-trained model (577 devgene conhort)
+rf_dev <- readRDS(paste(getwd(),"/devgene_model.rds",sep = ""))
 
-fit <- lm(masc~pheno$Sex+pheno$Age)
-final_output <- cbind(rownames(scaled_coordinates),fit$residuals)
+masc <- predict(rf_dev,cbind(pheno$Age,dd) ,type = "prob")[,2]
+p_label <- predict(rf_dev,cbind(pheno$Age,dd))
+
+print("Confusion matrix")
+print(table(as.character(pheno$Sex),p_label))
+
+### correct for age effects within each sex separately (using lowess);
+masc_cor = masc
+idx = which(pheno$Sex=="F")
+if(length(idx)>0){
+  l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
+  masc_cor[idx] = masc[idx]-approx(l,xout=log2(as.integer(pheno$Age[idx])+1))$y
+}
+
+idx = which(pheno$Sex=="M")
+if(length(idx)>0){
+  l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
+  masc_cor[idx] = masc[idx]-approx(l,xout=log2(as.integer(pheno$Age[idx])+1))$y
+}
+
+
+
+final_output <- cbind(rownames(scaled_coordinates),masc_cor)
 colnames(final_output)<- c("ID","masc_cor")
 write.table(final_output,paste(getwd(),args[3],sep = "/"),row.names = F,quote = F,sep = "\t")
+
+### clean the work enviroment
+
 system(paste("rm","raw_dlib_output.txt",sep = " "))
 system(paste("rm","scaled_coordinates.csv",sep = " "))
 system(paste("rm","dlib_output.csv",sep = " "))
