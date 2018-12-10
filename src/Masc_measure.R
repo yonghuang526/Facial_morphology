@@ -141,7 +141,8 @@ dd = t(dd)
 library(randomForest)
 ### Loading the pre-trained model (577 devgene conhort)
 rf_dev <- readRDS(paste(getwd(),"/devgene_model.rds",sep = ""))
-
+load(paste(getwd(),"/devGenes_TD_age_lowess_curves_fmasc.Rdata",sep = ""))
+     
 masc <- predict(rf_dev,cbind(pheno$Age,dd) ,type = "prob")[,2]
 p_label <- predict(rf_dev,cbind(pheno$Age,dd))
 
@@ -152,14 +153,14 @@ print(table(as.character(pheno$Sex),p_label))
 masc_cor = masc
 idx = which(pheno$Sex=="F")
 if(length(idx)>0){
-  l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
-  masc_cor[idx] = masc[idx]-approx(l,xout=log2(as.integer(pheno$Age[idx])+1))$y
+  #l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
+  masc_cor[idx] = masc[idx]-approx(l_female,xout=log2(as.integer(pheno$Age[idx])+1))$y
 }
 
 idx = which(pheno$Sex=="M")
 if(length(idx)>0){
-  l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
-  masc_cor[idx] = masc[idx]-approx(l,xout=log2(as.integer(pheno$Age[idx])+1))$y
+  #l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
+  masc_cor[idx] = masc[idx]-approx(l_male,xout=log2(as.integer(pheno$Age[idx])+1))$y
 }
 
 
