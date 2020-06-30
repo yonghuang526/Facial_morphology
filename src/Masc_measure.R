@@ -153,13 +153,11 @@ print(table(as.character(pheno$Sex),p_label))
 masc_cor = masc
 idx = which(pheno$Sex=="F")
 if(length(idx)>0){
-  #l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
   masc_cor[idx] = masc[idx]-approx(l_female,xout=log2(as.integer(pheno$Age[idx])+1))$y
 }
 
 idx = which(pheno$Sex=="M")
 if(length(idx)>0){
-  #l = lowess(log2(as.integer(pheno$Age[idx])+1),masc[idx])
   masc_cor[idx] = masc[idx]-approx(l_male,xout=log2(as.integer(pheno$Age[idx])+1))$y
 }
 
@@ -171,9 +169,10 @@ write.table(final_output,paste(getwd(),args[3],sep = "/"),row.names = F,quote = 
 
 ### clean the work enviroment
 
-system(paste("rm","raw_dlib_output.txt",sep = " "))
-system(paste("rm","scaled_coordinates.csv",sep = " "))
-system(paste("rm","dlib_output.csv",sep = " "))
+#system(paste("rm","raw_dlib_output.txt",sep = " "))
+#system(paste("rm","scaled_coordinates.csv",sep = " "))
+#system(paste("rm","dlib_output.csv",sep = " "))
+
 
   }
 }
